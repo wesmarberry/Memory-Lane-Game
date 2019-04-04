@@ -4,6 +4,8 @@ class Player {
 		this.name = ''
 		this.onPath = true
 		this.squareOn = ''
+		this.image = ''
+		this.win = false
 	}
 	fall() {
 
@@ -12,10 +14,26 @@ class Player {
 
 	}
 	move() {
-		
+
 	}
 }
 
+const game = {
+	numberPlayers: 0,
+	activeSquares: [],
+	boardSize: 3,
+	generateBoard(){
 
+	}
+	randomPath(){
+
+	}
+	showPath(){
+
+	}
+	restart(){
+		
+	}
+}
 
 
