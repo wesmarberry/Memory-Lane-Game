@@ -31,6 +31,7 @@ const game = {
 	numberPlayers: 0,
 	squares: [],
 	activeSquares: [],
+	offLimitsSquares: [],
 	boardSize: 7,
 	divSize: 50,
 	boardContainerSize: (this.boardSize * this.divSize),
@@ -39,7 +40,7 @@ const game = {
 	endSquare: '',
 	prevSquare: '',
 	currentSquare: '',
-	generateBoard(num){
+	generateBoard(){
 		$('#game-board').append($('<div/>').attr('id', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
 		$('#game-board').append($('<div/>').attr('id', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
@@ -50,6 +51,19 @@ const game = {
 				$('#main-grid').prepend($('<div/>').attr('id', row + '-' + column).css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 			}
 		}
+		this.randomPath()
+
+		let a = 0;
+		setInterval(() => {
+			this.showPath(a)
+			if (a < this.activeSquares.length) {
+				a++
+			} else {
+				clearInterval()
+			}
+			
+		}, 500)
+
 	},
 	setStartSquare(){
 		const row = 1
@@ -113,10 +127,14 @@ const game = {
 	 			this.availableSquares(this.currentSquare)
 	 			console.log(this.availableSquareArr);
 	 			let rand = Math.floor(Math.random() * this.availableSquareArr.length)
+
 	 			if (this.activeSquares.includes(this.availableSquareArr[rand]) === false) {
 		 			this.activeSquares.push(this.availableSquareArr[rand])
 		 			this.currentSquare = this.availableSquareArr[rand]
 		 			this.availableSquareArr = []
+		 			// for (let i = 0; i < this.availableSquareArr.length; i++) {
+	 				// 	this.offLimitsSquares.push(this.availableSquareArr[i])
+		 			// }
 		 			console.log(this.currentSquare);
 		 			console.log(this.activeSquares);
 	 			} else {
@@ -126,10 +144,10 @@ const game = {
  		// this.activeSquares.shift(this.startSquare)
  		console.log('Final active squares ' + this.activeSquares);
 	},
-	showPath(){
-		for (let i = 0; i < this.activeSquares.length; i++) {
-			$('#' + this.activeSquares[i]).attr('class', 'active')
-		}
+	showPath(a){
+
+			$('#' + this.activeSquares[a]).attr('class', 'active')
+			// $('#' + this.activeSquares[i]).attr('class', 'active')
 	},
 	restart(){
 
@@ -137,5 +155,4 @@ const game = {
 }
 
 game.generateBoard()
-game.randomPath()
-game.showPath()
+
