@@ -7,11 +7,22 @@
 </head>
 <body>
 	
-	<form id='number-players'>
-		<input type="radio" id='one-player' name='players' value='onePlayer'>One Player</input>
-		<input type='radio' id="two-players" name='players' value='twoPlayers'>Two Players</input>
-		<button type='submit'>Start Game</button>
-	</form>
+	<div id='form-container'>
+		<form id='number-players'>
+			<input type="radio" id='one-player' name='players' value='onePlayer'>One Player</input>
+			<input type='radio' id="two-players" name='players' value='twoPlayers'>Two Players</input>
+			<button type='submit'>Start Game</button>
+		</form>
+
+		<form id='grid-size'>
+			<input type="radio" id='5' name='gridsize' value='5'>5</input>
+			<input type='radio' id="7" name='gridsize' value='7'>7</input>
+			<input type='radio' id="9" name='gridsize' value='9'>9</input>
+			<input type='radio' id="11" name='gridsize' value='11'>11</input>
+			<button type='submit'>Start Game</button>
+		</form>		
+
+	</div>
 
 	<div id="message-board">
 

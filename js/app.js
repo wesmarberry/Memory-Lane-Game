@@ -1,4 +1,6 @@
 
+$('#grid-size').hide()
+
 class Player {
 	constructor(name, squareOn, board, playerNum) {
 		this.name = name
@@ -11,7 +13,7 @@ class Player {
 		this.playerNum = playerNum
 	}
 	fall() {
-		$('.active').css('background-color', 'white')
+		$(this.board + ' .active').css('background-color', 'white')
 		this.squareOn = '0-' + game.startSquare[2]
 		this.arrowPresses = 0
 	}
@@ -107,7 +109,7 @@ $(document).on('keydown', (e) => {
 
 $('#number-players').on('submit', (e) => {
 	e.preventDefault()
-	var radioValue = $("input[name='players']:checked").val();
+	let radioValue = $("input[name='players']:checked").val();
 	console.log(radioValue);
 
 	if (radioValue === 'onePlayer') {
@@ -117,12 +119,34 @@ $('#number-players').on('submit', (e) => {
 
 	} else {
 		game.numberPlayers = 2
-		game.generateBoard()
-		$('form').remove()
+		$('#number-players').remove()
+		$('#grid-size').show()
+
 	}
+	
+})
+
+$('#grid-size').on('submit', (e) => {
+	e.preventDefault()
+	let radioValue = $("input[name='gridsize']:checked").val();
+	console.log(radioValue);
+
+	if (radioValue === '5') {
+		game.boardSize = 5
+	} else if (radioValue === '7') {
+		game.boardSize = 7
+	} else if (radioValue === '9') {
+		game.boardSize = 9
+	} else if (radioValue === '11') {
+		game.boardSize = 11
+	} else if (radioValue === '13') {
+		game.boardSize = 13
+	}
+	$('#grid-size').hide()
+	game.generateBoard()
+	game.divSize = 40
 
 	
-
 })
 
 
@@ -167,7 +191,7 @@ const game = {
 			}
 			console.log('interval is going');
 			
-		}, 100)
+		}, 500)
 		if (this.numberPlayers === 2) {
 			console.log('cloning');
 			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
