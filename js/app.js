@@ -10,16 +10,16 @@ class Player {
 	}
 	fall() {
 		$('.active').css('background-color', 'white')
-		this.squareOn = '00-' + game.startSquare[4]+game.startSquare[5]
+		this.squareOn = '0-' + game.startSquare[2]
 		this.arrowPresses = 0
 	}
 	start(){
 
 	}
 	move(key) {
-		let row = Number(this.squareOn[0])
+		let row = Number(game.getRowCol(this.squareOn)[0])
 		console.log(row);
-		let column = Number(this.squareOn[2])
+		let column = Number(game.getRowCol(this.squareOn)[1])
 		console.log(column);
 		if (key === 'ArrowUp') {
 			row += 1
@@ -83,13 +83,20 @@ $(document).on('keydown', (e) => {
 })
 
 
-// class Square {
-// 	constructor() {
-// 		this.height = '50px'
-// 		this.width = '50px'
+$('form').on('submit', (e) => {
+	e.preventDefault()
+	var radioValue = $("input[name='players']:checked").val();
+	console.log(radioValue);
 
-// 	}
-// }
+	if (radioValue === 'onePlayer') {
+		game.generateBoard()
+		$('#number-players').remove
+
+	}
+
+	
+
+})
 
 
 const game = {
@@ -97,7 +104,7 @@ const game = {
 	squares: [],
 	activeSquares: [],
 	offLimitsSquares: [],
-	boardSize: 9,
+	boardSize: 3,
 	divSize: 50,
 	boardContainerSize: (this.boardSize * this.divSize),
 	availableSquareArr: [],
@@ -112,147 +119,78 @@ const game = {
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
 		$('#game-board').append($('<div/>').attr('id', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 		for (let i = 1; i <= this.boardSize; i++) {
-			let row = i
-			if (row < 10) {
-				row = '0' + i
-			} else {
-				row = i
-			}
+			const row = i
 			for (let j = 1; j <= this.boardSize; j++) {
-				let column = j
-				if (column < 10) {
-					column = '0' + j
-				} else {
-					column = j
-				}
-
+				const column = j
 				$('#main-grid').prepend($('<div/>').attr('id', row + '-' + column).css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 			}
 		}
 		this.randomPath()
 
-		// let a = 0;
-		// this.pathTimer = setInterval(() => {
-		// 	this.showPath(a)
-		// 	if (a < this.activeSquares.length) {
-		// 		a++
-		// 	} else {
-		// 		clearInterval(this.pathTimer)
-		// 		setTimeout(() => {
-		// 			this.startGame()
-		// 		}, 5000)
-		// 	}
-		// 	console.log('interval is going');
+		let a = 0;
+		this.pathTimer = setInterval(() => {
+			this.showPath(a)
+			if (a < this.activeSquares.length) {
+				a++
+			} else {
+				clearInterval(this.pathTimer)
+				setTimeout(() => {
+					this.startGame()
+				}, 5000)
+			}
+			console.log('interval is going');
 			
-		// }, 100)
+		}, 100)
 	},
 	setStartSquare(){
 		const row = 1
 		const column = Math.ceil(this.boardSize / 2)
-		const startSquareId = '0' + row + '-' + '0' + column
+		const startSquareId = row + '-' + column
 		this.startSquare = startSquareId
 		console.log(startSquareId);
-		if (this.boardSize < 10) {
-			this.endSquare = '0' + this.boardSize + '-' + '0' + column
-		} else {
-			this.endSquare = this.boardSize + '-0' + column
-		}
+		this.endSquare = this.boardSize + '-' + column
 	},
 	availableSquares(squareId){
-		let row = Number(squareId[0] + squareId[1])
-		let column = Number(squareId[3] + squareId[4])
-		console.log(row);
-		console.log(column);
+		const row = Number(this.getRowCol(squareId)[0])
+		const column = Number(this.getRowCol(squareId)[1])
 		let square1;
 		let square2;
 		let square3;
-		if (this.boardSize < 10) {
-			if (row === 1 && column === 1) {
-				square1 = '0' + (row + 1) + '-' + '0' + column 
-				this.availableSquareArr.push(square1)
-			} else if (row === this.boardSize && column ===1) {
-				square2 = '0' + row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square2)
-			} else if (row === this.boardSize && column === this.boardSize) {
-				square1 = '0' + row + '-' + '0' + (column - 1)
-				this.availableSquareArr.push(square1)
-			} else if (row === 1 && column === this.boardSize) {
-				square1 = '0' + (row + 1) + '-' + '0' + column
-				this.availableSquareArr.push(square1)
-			} else if (row === this.boardSize && column < Number(this.endSquare[5])) {
-				square1 = '0' + row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square1)
-			} else if (row === this.boardSize && column > Number(this.endSquare[5])) {
-				square1 = '0' + row + '-' + '0' + (column - 1)
-				this.availableSquareArr.push(square1)
-			} else if (column === 1) {
-				square1 = '0' + (row + 1) + '-' + '0' + column
-				square2 = '0' + row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square1)
-				this.availableSquareArr.push(square2)
-			} else if (column === this.boardSize) {
-				square1 = '0' + (row + 1) + '-' + '0' + column
-				square2 = '0' + row + '-' + '0' + (column - 1)
-				this.availableSquareArr.push(square1)
-				this.availableSquareArr.push(square2)
-			} else {
-				square1 = '0' + (row + 1) + '-' + '0' + column
-				square2 = '0' + row + '-' + '0' + (column - 1)
-				square3 = '0' + row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square1)
-				this.availableSquareArr.push(square2)
-				this.availableSquareArr.push(square3)
-			}
+		if (row === 1 && column === 1) {
+			square1 = (row + 1) + '-' + column 
+			this.availableSquareArr.push(square1)
+		} else if (row === this.boardSize && column ===1) {
+			square2 = row + '-' + (column + 1)
+			this.availableSquareArr.push(square2)
+		} else if (row === this.boardSize && column === this.boardSize) {
+			square1 = row + '-' + (column - 1)
+			this.availableSquareArr.push(square1)
+		} else if (row === 1 && column === this.boardSize) {
+			square1 = (row + 1) + '-' + column
+			this.availableSquareArr.push(square1)
+		} else if (row === this.boardSize && column < this.getRowCol(this.endSquare)[1]) {
+			square1 = row + '-' + (column + 1)
+			this.availableSquareArr.push(square1)
+		} else if (row === this.boardSize && column > this.getRowCol(this.endSquare)[1]) {
+			square1 = row + '-' + (column - 1)
+			this.availableSquareArr.push(square1)
+		} else if (column === 1) {
+			square1 = (row + 1) + '-' + column
+			square2 = row + '-' + (column + 1)
+			this.availableSquareArr.push(square1)
+			this.availableSquareArr.push(square2)
+		} else if (column === this.boardSize) {
+			square1 = (row + 1) + '-' + column
+			square2 = row + '-' + (column - 1)
+			this.availableSquareArr.push(square1)
+			this.availableSquareArr.push(square2)
 		} else {
-			if (row === 1 && column === 1) {
-				square1 = '0' + (row + 1) + '-' + '0' + column 
-				this.availableSquareArr.push(square1)
-			} else if (row === this.boardSize && column ===1) {
-				square2 = row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square2)
-			} else if (row === this.boardSize && column === this.boardSize) {
-				square1 = row + '-' + (column - 1)
-				this.availableSquareArr.push(square1)
-			} else if (row === 1 && column === this.boardSize) {
-				square1 = '0' (row + 1) + '-' + column
-				this.availableSquareArr.push(square1)
-			} else if (row === this.boardSize && column < this.endSquare[5]) {
-				square1 = row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square1)
-			} else if (row === this.boardSize && (column > Number(this.endSquare[4] + this.endSquare[5]) && Number(this.endSquare[4] + this.endSquare[5]) <= 10)){
-				square1 = row + '-' + '0' + (column - 1)
-				this.availableSquareArr.push(square1)
-			} else if (row === this.boardSize && (column > Number(this.endSquare[4] + this.endSquare[5]) && Number(this.endSquare[4] + this.endSquare[5]) > 10)){
-				square1 = row + '-' + (column - 1)
-				this.availableSquareArr.push(square1)
-			} else if (column === 1 && row < 10) {
-				square1 = '0' (row + 1) + '-' + '0' + column
-				square2 = '0' + row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square1)
-				this.availableSquareArr.push(square2)
-			} else if (column === 1 && row > 9) {
-				square1 = (row + 1) + '-' + '0' + column
-				square2 = row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square1)
-				this.availableSquareArr.push(square2)
-			} else if (column === this.boardSize && row < 10) {
-				square1 = (row + 1) + '-' + column
-				square2 = '0' + row + '-' + (column - 1)
-				this.availableSquareArr.push(square1)
-				this.availableSquareArr.push(square2)
-			} else if (column === this.boardSize && row > 9) {
-				square1 = (row + 1) + '-' + column
-				square2 = row + '-' + (column - 1)
-				this.availableSquareArr.push(square1)
-				this.availableSquareArr.push(square2)
-			} else {
-				square1 = '0' + (row + 1) + '-' + '0' + column
-				square2 = '0' + row + '-' + '0' + (column - 1)
-				square3 = '0' + row + '-' + '0' + (column + 1)
-				this.availableSquareArr.push(square1)
-				this.availableSquareArr.push(square2)
-				this.availableSquareArr.push(square3)
-			}
+			square1 = (row + 1) + '-' + column
+			square2 = row + '-' + (column - 1)
+			square3 = row + '-' + (column + 1)
+			this.availableSquareArr.push(square1)
+			this.availableSquareArr.push(square2)
+			this.availableSquareArr.push(square3)
 		}
 		// console.log(this.availableSquareArr);
 	},
@@ -294,12 +232,18 @@ const game = {
 		console.log('started the game');
 		$('.active').css('background-color', 'white')
 		console.log(this.startSquare);
-		let row = this.startSquare[0]
-		let col = this.startSquare[4] + this.startSquare[5]
-		player1 = new Player('Wes', '00-' + col)
+		let row = this.getRowCol(this.startSquare)[0]
+		let col = this.getRowCol(this.startSquare)[1]
+		player1 = new Player('Wes', '0-' + col)
 	},
-	restart(){
+	getRowCol(str){
+		let row;
+		let col;
+		let arr = []
+		arr = str.split('-')
+		return arr
 
+	
 	}
 }
 
