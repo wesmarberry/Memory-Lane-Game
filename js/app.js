@@ -1,12 +1,14 @@
 
 class Player {
-	constructor(name, squareOn) {
+	constructor(name, squareOn, board, playerNum) {
 		this.name = name
 		this.onPath = true
 		this.squareOn = squareOn
 		this.image = ''
 		this.win = false
 		this.arrowPresses = 0
+		this.board = board
+		this.playerNum = playerNum
 	}
 	fall() {
 		$('.active').css('background-color', 'white')
@@ -17,58 +19,66 @@ class Player {
 
 	}
 	move(key) {
-		let row = Number(game.getRowCol(this.squareOn)[0])
-		console.log(row);
-		let column = Number(game.getRowCol(this.squareOn)[1])
-		console.log(column);
-		if (key === 'ArrowUp') {
-			row += 1
-			this.squareOn = row + '-' + column
-			if (this.squareOn === game.activeSquares[this.arrowPresses]) {
-				console.log('You are on the path');
-				$('#' + this.squareOn).css('background-color', 'blue')
-				this.arrowPresses++
-			} else {
-				console.log('you are not on the path. Restart');
-				this.fall()
+		if (this.win === false) {
+			let row = Number(game.getRowCol(this.squareOn)[0])
+			console.log(row);
+			let column = Number(game.getRowCol(this.squareOn)[1])
+			console.log(column);
+			if (key === 'ArrowUp') {
+				row += 1
+				this.squareOn = row + '-' + column
+				if (this.squareOn === game.activeSquares[this.arrowPresses]) {
+					console.log('You are on the path');
+					$(this.board + ' .' + this.squareOn).css('background-color', 'blue')
+					this.arrowPresses++
+				} else {
+					console.log('you are not on the path. Restart');
+					this.fall()
+				}
 			}
-		}
-		if (key === 'ArrowLeft') {
-			column += 1
-			this.squareOn = row + '-' + column
-			if (this.squareOn === game.activeSquares[this.arrowPresses]) {
-				console.log('You are on the path');
-				$('#' + this.squareOn).css('background-color', 'blue')
-				this.arrowPresses++
-			} else {
-				console.log('you are not on the path. Restart');
-				this.fall()
+			if (key === 'ArrowLeft') {
+				column += 1
+				this.squareOn = row + '-' + column
+				if (this.squareOn === game.activeSquares[this.arrowPresses]) {
+					console.log('You are on the path');
+					$(this.board + ' .' + this.squareOn).css('background-color', 'blue')
+					this.arrowPresses++
+				} else {
+					console.log('you are not on the path. Restart');
+					this.fall()
+				}
 			}
-		}
-		if (key === 'ArrowRight') {
-			column -= 1
-			this.squareOn = row + '-' + column
-			if (this.squareOn === game.activeSquares[this.arrowPresses]) {
-				console.log('You are on the path');
-				$('#' + this.squareOn).css('background-color', 'blue')
-				this.arrowPresses++
-			} else {
-				console.log('you are not on the path. Restart');
-				this.fall()
+			if (key === 'ArrowRight') {
+				column -= 1
+				this.squareOn = row + '-' + column
+				if (this.squareOn === game.activeSquares[this.arrowPresses]) {
+					console.log('You are on the path');
+					$(this.board + ' .' + this.squareOn).css('background-color', 'blue')
+					this.arrowPresses++
+				} else {
+					console.log('you are not on the path. Restart');
+					this.fall()
 
+				}
 			}
-		}
-		if (this.squareOn === game.endSquare) {
-			this.winner()
-		}
+			if (this.squareOn === game.endSquare) {
+				this.winner()
+			}
+		}	
 	}	
 	winner(){
-		console.log('You win');
-		game.boardSize += 2
-		$('#game-board').children().remove()
-		game.activeSquares = []
-		game.availableSquareArr = []
-		game.generateBoard()
+		if (game.numberPlayers === 1) {
+			console.log('You win');
+			game.boardSize += 2
+			$('#game-board').children().remove()
+			game.activeSquares = []
+			game.availableSquareArr = []
+			game.generateBoard()
+		} else {
+			this.win = true
+			console.log('Player ' + this.playerNum + ' wins!');
+			$('<h3/>').text('Player ' + this.playerNum + ' wins!').css('color', 'green').appendTo($('#message-board'))
+		}
 	}
 }
 
@@ -78,20 +88,37 @@ $(document).on('keydown', (e) => {
 	console.log(e.key);
   // you could filterout everything bbut arrow keys here
   if(['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
+    player2.move(e.key)
+  }
+  if(['a', 'w', 'd'].includes(e.key)) {
+  	if (e.key === 'a') {
+  		e.key = 'ArrowLeft'
+  	} else if (e.key === 'w') {
+  		e.key = 'ArrowUp'
+  	} else if (e.key === 'd') {
+  		e.key = 'ArrowRight'
+  	}
     player1.move(e.key)
   }
+
+
 })
 
 
-$('form').on('submit', (e) => {
+$('#number-players').on('submit', (e) => {
 	e.preventDefault()
 	var radioValue = $("input[name='players']:checked").val();
 	console.log(radioValue);
 
 	if (radioValue === 'onePlayer') {
+		game.numberPlayers = 1
 		game.generateBoard()
-		$('#number-players').remove
+		$('form').remove()
 
+	} else {
+		game.numberPlayers = 2
+		game.generateBoard()
+		$('form').remove()
 	}
 
 	
@@ -115,14 +142,14 @@ const game = {
 	pathTimer: '',
 	timeOut: '',
 	generateBoard(){
-		$('#game-board').append($('<div/>').attr('id', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+		$('#game-board').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
-		$('#game-board').append($('<div/>').attr('id', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 		for (let i = 1; i <= this.boardSize; i++) {
 			const row = i
 			for (let j = 1; j <= this.boardSize; j++) {
 				const column = j
-				$('#main-grid').prepend($('<div/>').attr('id', row + '-' + column).css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+				$('#main-grid').prepend($('<div/>').attr('class', row + '-' + column).css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 			}
 		}
 		this.randomPath()
@@ -141,6 +168,13 @@ const game = {
 			console.log('interval is going');
 			
 		}, 100)
+		if (this.numberPlayers === 2) {
+			console.log('cloning');
+			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+			$('#main-grid').clone().appendTo($('#game-board2')).attr('id', 'main-grid2')
+			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+		}
+
 	},
 	setStartSquare(){
 		const row = 1
@@ -225,7 +259,7 @@ const game = {
 	},
 	showPath(a){
 
-			$('#' + this.activeSquares[a]).attr('class', 'active')
+			$('.' + this.activeSquares[a]).addClass('active')
 			// $('#' + this.activeSquares[i]).attr('class', 'active')
 	},
 	startGame(){
@@ -234,7 +268,8 @@ const game = {
 		console.log(this.startSquare);
 		let row = this.getRowCol(this.startSquare)[0]
 		let col = this.getRowCol(this.startSquare)[1]
-		player1 = new Player('Wes', '0-' + col)
+		player1 = new Player('Wes', '0-' + col, '#main-grid', 1)
+		player2 = new Player('player2', '0-' + col, '#main-grid2', 2)
 	},
 	getRowCol(str){
 		let row;
@@ -242,9 +277,7 @@ const game = {
 		let arr = []
 		arr = str.split('-')
 		return arr
-
-	
-	}
+	},
 }
 
 

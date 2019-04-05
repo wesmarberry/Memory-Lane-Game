@@ -5,7 +5,8 @@
 }
 
 
-#main-grid {
+#main-grid,  #main-grid2{
+	text-align: center;
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -17,7 +18,7 @@
 }*/
 
 
-#game-board {
+#game-board #game-board2{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -25,4 +26,10 @@
 
 .active {
 	background-color: red;
+}
+
+#game-container {
+	display: flex;
+	justify-content: space-around;
+	align-content: flex-end;
 }
