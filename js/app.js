@@ -1,9 +1,9 @@
 
 class Player {
-	constructor() {
-		this.name = ''
+	constructor(name, squareOn) {
+		this.name = this.name
 		this.onPath = true
-		this.squareOn = ''
+		this.squareOn = this.squareOn
 		this.image = ''
 		this.win = false
 	}
@@ -13,10 +13,32 @@ class Player {
 	win() {
 
 	}
-	move() {
+	start(){
 
 	}
+	move(key) {
+		let row = Number(this.squareOn[0])
+		console.log(row);
+		let column = Number(this.squareOn[2])
+		console.log(column);
+		if (key === 'ArrowUp') {
+			column += 1
+			this.squareOn = row + '-' + column
+			$('#' + this.squareOn).css('background-color', 'blue')
+		}
+	}
 }
+
+// event listener for mmovement
+
+$(document).on('keydown', (e) => {
+	console.log(e.key);
+  // you could filterout everything bbut arrow keys here
+  if(['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
+    player1.move(e.key)
+  }
+})
+
 
 // class Square {
 // 	constructor() {
@@ -40,6 +62,8 @@ const game = {
 	endSquare: '',
 	prevSquare: '',
 	currentSquare: '',
+	pathTimer: '',
+	timeOut: '',
 	generateBoard(){
 		$('#game-board').append($('<div/>').attr('id', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
@@ -54,16 +78,19 @@ const game = {
 		this.randomPath()
 
 		let a = 0;
-		setInterval(() => {
+		this.pathTimer = setInterval(() => {
 			this.showPath(a)
 			if (a < this.activeSquares.length) {
 				a++
 			} else {
-				clearInterval()
+				clearInterval(this.pathTimer)
+				setTimeout(() => {
+					this.startGame()
+				}, 5000)
 			}
+			console.log('interval is going');
 			
 		}, 500)
-
 	},
 	setStartSquare(){
 		const row = 1
@@ -148,6 +175,12 @@ const game = {
 
 			$('#' + this.activeSquares[a]).attr('class', 'active')
 			// $('#' + this.activeSquares[i]).attr('class', 'active')
+	},
+	startGame(){
+		console.log('started the game');
+		$('.active').css('background-color', 'white')
+		console.log(this.startSquare);
+		player1 = new Player('Wes', this.startSquare)
 	},
 	restart(){
 
