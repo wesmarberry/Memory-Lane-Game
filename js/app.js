@@ -54,7 +54,7 @@ const game = {
 	squares: [],
 	activeSquares: [],
 	offLimitsSquares: [],
-	boardSize: 7,
+	boardSize: 11,
 	divSize: 50,
 	boardContainerSize: (this.boardSize * this.divSize),
 	availableSquareArr: [],
@@ -90,7 +90,7 @@ const game = {
 			}
 			console.log('interval is going');
 			
-		}, 500)
+		}, 100)
 	},
 	setStartSquare(){
 		const row = 1
