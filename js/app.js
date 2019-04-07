@@ -88,7 +88,7 @@ class Player {
 
 $(document).on('keydown', (e) => {
 	console.log(e.key);
-  // you could filterout everything bbut arrow keys here
+  // you could filterout everything but arrow keys here
   if(['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
     player2.move(e.key)
   }
