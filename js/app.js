@@ -5,19 +5,20 @@ $('#game-container').hide()
 
 
 class Player {
-	constructor(name, squareOn, board, playerNum) {
+	constructor(name, squareOn, board, playerNum, gameBoard) {
 		this.name = name 
 		this.onPath = true // player property that is update if the player is on the active path
 		this.squareOn = squareOn // player property that tracks the class of the square the player is on
-		this.image = '' //player image
-		this.win = false // changees if player reaches the end square
+		this.image = 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12111689-e376-408b-9063-547f262f3eac/d8bhjyj-cb4e50bf-9128-4d70-ad02-7e08e4b70d7f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzEyMTExNjg5LWUzNzYtNDA4Yi05MDYzLTU0N2YyNjJmM2VhY1wvZDhiaGp5ai1jYjRlNTBiZi05MTI4LTRkNzAtYWQwMi03ZTA4ZTRiNzBkN2YucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fniOFIOeZsBIYZfe3mXRMsTJE1HZLQjCzzVDq2TDwAY' //player image
+		this.win = false // changes if player reaches the end square
 		this.arrowPresses = 0 //tracks how many squares the player has gotten to that are on the path
+		this.gameBoard = gameBoard
 		this.board = board // dirrerentiates the board player 1 is on and the board player 2 is on
 		this.playerNum = playerNum // tracks the player number (1 or 2)
 	}
 	fall() {
 		
-
+		$(this.gameBoard + ' .start-platform').append($('<img/>').attr('src', this.image).css('height', '40px'))
 		$(this.board + ' .active').css('background-color', '#222222')
 		this.squareOn = '0-' + game.startSquare[2]
 		this.arrowPresses = 0
@@ -26,10 +27,23 @@ class Player {
 
 	}
 	move(key) {
-		if (this.win === false) {
+		if (this.squareOn === game.endSquare) {
+				// $(this.board + ' .' + game.endSquare).css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
+				// $('.' + this.squareOn + ' img').remove()
+				setTimeout(() => {
+					$(this.board + ' .' + this.squareOn + ' img').remove()
+					$(this.gameBoard + ' .end-platform').css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
+					setTimeout(() => {
+					this.winner()	
+					}, 500)
+				}, 500)
+				
+			} else if (this.win === false) {
 			let row = Number(game.getRowCol(this.squareOn)[0])
 			console.log(row);
 			let column = Number(game.getRowCol(this.squareOn)[1])
+			$(this.gameBoard + ' .start-platform img').remove()
+			$(this.board + ' .' + this.squareOn + ' img').remove()
 			console.log(column);
 			if (key === 'ArrowUp') {
 				row += 1
@@ -37,6 +51,7 @@ class Player {
 				if (this.squareOn === game.activeSquares[this.arrowPresses]) {
 					console.log('You are on the path');
 					$(this.board + ' .' + this.squareOn).css('background-color', 'blue')
+					$(this.board + ' .' + this.squareOn).append($('<img/>').attr('src', this.image).css('height', '40px'))
 					this.arrowPresses++
 				} else {
 					console.log('you are not on the path. Restart');
@@ -49,6 +64,7 @@ class Player {
 				if (this.squareOn === game.activeSquares[this.arrowPresses]) {
 					console.log('You are on the path');
 					$(this.board + ' .' + this.squareOn).css('background-color', 'blue')
+					$(this.board + ' .' + this.squareOn).append($('<img/>').attr('src', 'https://vignette.wikia.nocookie.net/goanimate-v2/images/5/59/Crash_Bandicoot_-_Koopa_Kart_Wii.png/revision/latest?cb=20180603034204').css('height', '40px'))
 					this.arrowPresses++
 				} else {
 					console.log('you are not on the path. Restart');
@@ -61,6 +77,7 @@ class Player {
 				if (this.squareOn === game.activeSquares[this.arrowPresses]) {
 					console.log('You are on the path');
 					$(this.board + ' .' + this.squareOn).css('background-color', 'blue')
+					$(this.board + ' .' + this.squareOn).append($('<img/>').attr('src', this.image).css('height', '40px'))
 					this.arrowPresses++
 				} else {
 					console.log('you are not on the path. Restart');
@@ -68,13 +85,18 @@ class Player {
 
 				}
 			}
-			if (this.squareOn === game.endSquare) {
-				$(this.board + ' .' + game.endSquare).css('background-color', 'blue')
-				setTimeout(() => {
-					this.winner()
-				}, 500)
+			// if (this.squareOn === game.endSquare) {
+			// 	// $(this.board + ' .' + game.endSquare).css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
+			// 	// $('.' + this.squareOn + ' img').remove()
+			// 	setTimeout(() => {
+			// 		$(this.board + ' .' + this.squareOn + ' img').remove()
+			// 		$(this.gameBoard + ' .end-platform').css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
+			// 		setTimeout(() => {
+			// 		this.winner()	
+			// 		}, 500)
+			// 	}, 500)
 				
-			}
+			// }
 		}	
 	}	
 	winner(){
@@ -89,7 +111,8 @@ class Player {
 			$('#countdown').remove()
 			game.generateBoard()
 		} else {
-			this.win = true
+			player1.win = true
+			player2.win = true
 			console.log('Player ' + this.playerNum + ' wins!');
 			$('h4').text('Player ' + this.playerNum + ' wins!').appendTo($('#timer'))
 		}
@@ -181,12 +204,20 @@ const game = {
 	timeOut: '',
 	fadeTime: 3000,
 	generateBoard(){
+		player1 = null
+		player2 = null
+		if (this.level > 3) {
+			this.divSize = 40
+		} else if (this.level > 5) {
+			this.divSize = 30
+		}
 		$('#form-container').remove()
 		$('#game-container').show()
 		$('<h3/>').text('Level: ' + this.level).appendTo($('#timer'))
 		$('#game-board').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
 		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()).css('background-color', 'blue'))
+		$('<img/>').attr('src', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12111689-e376-408b-9063-547f262f3eac/d8bhjyj-cb4e50bf-9128-4d70-ad02-7e08e4b70d7f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzEyMTExNjg5LWUzNzYtNDA4Yi05MDYzLTU0N2YyNjJmM2VhY1wvZDhiaGp5ai1jYjRlNTBiZi05MTI4LTRkNzAtYWQwMi03ZTA4ZTRiNzBkN2YucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fniOFIOeZsBIYZfe3mXRMsTJE1HZLQjCzzVDq2TDwAY').appendTo($('.start-platform'))
 		$('<p/>').html('Up : w<br>Left : a<br>Right : d').css('color', 'white').appendTo($('#game-board'))
 		$('#game-board').hide()
 		$('#game-board').fadeIn(this.fadeTime, () => {
@@ -205,6 +236,7 @@ const game = {
 			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 			$('#main-grid').clone().appendTo($('#game-board2')).attr('id', 'main-grid2')
 			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()).css('background-color', 'blue'))
+			$('<img/>').attr('src', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12111689-e376-408b-9063-547f262f3eac/d8bhjyj-cb4e50bf-9128-4d70-ad02-7e08e4b70d7f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzEyMTExNjg5LWUzNzYtNDA4Yi05MDYzLTU0N2YyNjJmM2VhY1wvZDhiaGp5ai1jYjRlNTBiZi05MTI4LTRkNzAtYWQwMi03ZTA4ZTRiNzBkN2YucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fniOFIOeZsBIYZfe3mXRMsTJE1HZLQjCzzVDq2TDwAY').appendTo($('#game-board2 .start-platform'))
 			$('#game-board2').css('margin-left', '100px')
 			$('<p/>').html('Up : Up Arrow<br>Left : Left Arrow<br>Right : Right Arrow').css('color', 'white').appendTo($('#game-board2'))
 			$('#game-board2').hide()
@@ -340,8 +372,8 @@ const game = {
 		console.log(this.startSquare);
 		let row = this.getRowCol(this.startSquare)[0]
 		let col = this.getRowCol(this.startSquare)[1]
-		player1 = new Player('Wes', '0-' + col, '#main-grid', 1)
-		player2 = new Player('player2', '0-' + col, '#main-grid2', 2)
+		player1 = new Player('Wes', '0-' + col, '#main-grid', 1, '#game-board')
+		player2 = new Player('player2', '0-' + col, '#main-grid2', 2, '#game-board2')
 	},
 	getRowCol(str){
 		let row;
