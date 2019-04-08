@@ -13,6 +13,10 @@ class Player {
 		this.playerNum = playerNum
 	}
 	fall() {
+		$(this.board + ' ' + this.squareOn).slideDown(1000, () => {
+			
+		})
+
 		$(this.board + ' .active').css('background-color', '#222222')
 		this.squareOn = '0-' + game.startSquare[2]
 		this.arrowPresses = 0
@@ -168,11 +172,16 @@ const game = {
 	currentSquare: '',
 	pathTimer: '',
 	timeOut: '',
+	fadeTime: 5000,
 	generateBoard(){
 		$('#form-container').remove()
 		$('#game-board').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
 		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+		$('#game-board').hide()
+		$('#game-board').fadeIn(this.fadeTime, () => {
+			
+		})
 		for (let i = 1; i <= this.boardSize; i++) {
 			const row = i
 			for (let j = 1; j <= this.boardSize; j++) {
@@ -180,37 +189,48 @@ const game = {
 				$('#main-grid').prepend($('<div/>').attr('class', row + '-' + column).css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white'))
 			}
 		}
-		this.randomPath()
-		$('<h4/>').attr('id', 'countdown').text('10').appendTo($('#timer'))
-		let a = 0;
-		let i = 10;
-		let z = 0;
-		this.pathTimer = setInterval(() => {
-			this.showPath(a)
-			if (a < this.activeSquares.length) {
-				a++
-			} else if (i > 0 && (z % 2 === 0)) {
-				i--
-				console.log(i);
-				$('#countdown').text(i)
-				// setTimeout(() => {
-				// 	this.startGame()
-				// }, 10000)
-			} else if (i===0) {
-				this.startGame()
-				$('#countdown').text('Start!')
-				clearInterval(this.pathTimer)
-			}
-			console.log('interval is going');
-			z++
-		}, 500)
+
 		if (this.numberPlayers === 2) {
 			console.log('cloning');
 			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 			$('#main-grid').clone().appendTo($('#game-board2')).attr('id', 'main-grid2')
 			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+			$('#game-board2').hide()
+			$('#game-board2').fadeIn(this.fadeTime, () => {
+
+			})
 		}
 
+		$('<h4/>').attr('id', 'countdown').text('10').appendTo($('#timer'))
+
+		setTimeout(() => {
+			this.randomPath()
+			let a = 0;
+			let i = 10;
+			let z = 0;
+			this.pathTimer = setInterval(() => {
+				this.showPath(a)
+				if (a < this.activeSquares.length) {
+					a++
+				} else if (i > 0 && (z % 2 === 0) && z !== 0) {
+					i--
+					console.log(i);
+					$('#countdown').text(i)
+					// setTimeout(() => {
+					// 	this.startGame()
+					// }, 10000)
+				} else if (i===0) {
+					this.startGame()
+					$('#countdown').text('Start!')
+					clearInterval(this.pathTimer)
+				}
+				console.log('interval is going');
+				z++
+		}, 500)
+		}, this.fadeTime)
+
+
+		
 	},
 	countdownTimer(){
 
