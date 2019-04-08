@@ -6,8 +6,15 @@
 	<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
 </head>
 <body>
-	
-
+	<h1>Memory-Lane</h1>
+	<div id="instructions">
+		<h3>Instructions</h3>
+		<ol>
+			<li>The path to safety will be shown on the platform.</li>
+			<li>The user will have 10 seconds after the complete path is shown to memorize the path exactly.</li> 
+			<li>If the user steps on an area that is not on the path or out of sequence the user will fall and have to start over at the start platform.</li>
+		</ol>
+	</div>
 	<div id='form-container'>
 
 
@@ -30,7 +37,7 @@
 		</form>
 
 		<form id='grid-size'>
-
+			<h3>Select Platform Size</h3>
 			<ul>
 				<li>
 					<input type="radio" id='5' name='gridsize' value='5'>
@@ -53,6 +60,10 @@
 			<button type='submit'>Start Game</button>
 		</form>		
 
+	</div>
+
+	<div id="timer">
+		<h4>Countdown: <span id='timer-span'></span>
 	</div>
 
 	<div id="message-board">

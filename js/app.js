@@ -13,7 +13,7 @@ class Player {
 		this.playerNum = playerNum
 	}
 	fall() {
-		$(this.board + ' .active').css('background-color', 'white')
+		$(this.board + ' .active').css('background-color', '#222222')
 		this.squareOn = '0-' + game.startSquare[2]
 		this.arrowPresses = 0
 	}
@@ -116,12 +116,15 @@ $('#number-players').on('submit', (e) => {
 		game.numberPlayers = 1
 		game.generateBoard()
 		$('form').remove()
+		$('h1').remove()
+		$('#instructions').remove()
 
 	} else {
 		game.numberPlayers = 2
 		$('#number-players').remove()
 		$('#grid-size').show()
-
+		$('h1').remove()
+		$('#instructions').remove()
 	}
 	
 })
@@ -173,22 +176,27 @@ const game = {
 			const row = i
 			for (let j = 1; j <= this.boardSize; j++) {
 				const column = j
-				$('#main-grid').prepend($('<div/>').attr('class', row + '-' + column).css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+				$('#main-grid').prepend($('<div/>').attr('class', row + '-' + column).css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white'))
 			}
 		}
 		this.randomPath()
 
 		let a = 0;
+		let i = 10
 		this.pathTimer = setInterval(() => {
 			this.showPath(a)
 			if (a < this.activeSquares.length) {
 				a++
+			} else if (i > 0) {
+				i--
+				console.log(i);
 			} else {
 				clearInterval(this.pathTimer)
 				setTimeout(() => {
 					this.startGame()
-				}, 5000)
+				}, 10000)
 			}
+		
 			console.log('interval is going');
 			
 		}, 500)
@@ -198,6 +206,9 @@ const game = {
 			$('#main-grid').clone().appendTo($('#game-board2')).attr('id', 'main-grid2')
 			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 		}
+
+	},
+	countdownTimer(){
 
 	},
 	setStartSquare(){
@@ -288,7 +299,7 @@ const game = {
 	},
 	startGame(){
 		console.log('started the game');
-		$('.active').css('background-color', 'white')
+		$('.active').css('background-color', '#222222')
 		console.log(this.startSquare);
 		let row = this.getRowCol(this.startSquare)[0]
 		let col = this.getRowCol(this.startSquare)[1]
