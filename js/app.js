@@ -27,18 +27,7 @@ class Player {
 
 	}
 	move(key) {
-		if (this.squareOn === game.endSquare) {
-				// $(this.board + ' .' + game.endSquare).css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
-				// $('.' + this.squareOn + ' img').remove()
-				setTimeout(() => {
-					$(this.board + ' .' + this.squareOn + ' img').remove()
-					$(this.gameBoard + ' .end-platform').css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
-					setTimeout(() => {
-					this.winner()	
-					}, 500)
-				}, 500)
-				
-			} else if (this.win === false) {
+		if (this.win === false) {
 			let row = Number(game.getRowCol(this.squareOn)[0])
 			console.log(row);
 			let column = Number(game.getRowCol(this.squareOn)[1])
@@ -85,18 +74,19 @@ class Player {
 
 				}
 			}
-			// if (this.squareOn === game.endSquare) {
-			// 	// $(this.board + ' .' + game.endSquare).css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
-			// 	// $('.' + this.squareOn + ' img').remove()
-			// 	setTimeout(() => {
-			// 		$(this.board + ' .' + this.squareOn + ' img').remove()
-			// 		$(this.gameBoard + ' .end-platform').css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
-			// 		setTimeout(() => {
-			// 		this.winner()	
-			// 		}, 500)
-			// 	}, 500)
+			if (this.squareOn === game.endSquare) {
+				// $(this.board + ' .' + game.endSquare).css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
+				// $('.' + this.squareOn + ' img').remove()
+				this.win = true
+				setTimeout(() => {
+					$(this.board + ' .' + this.squareOn + ' img').remove()
+					$(this.gameBoard + ' .end-platform').css('background-color', 'blue').append($('<img/>').attr('src', this.image).css('height', '40px'))
+					setTimeout(() => {
+					this.winner()	
+					}, 500)
+				}, 500)
 				
-			// }
+			}
 		}	
 	}	
 	winner(){
