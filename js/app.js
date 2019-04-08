@@ -13,8 +13,8 @@ class Player {
 		this.playerNum = playerNum
 	}
 	fall() {
-		$(this.board + ' ' + this.squareOn).slideDown(1000, () => {
-			
+		$(this.board + ' .' + this.squareOn).slideDown(1000, () => {
+			console.log('ran slideDown');
 		})
 
 		$(this.board + ' .active').css('background-color', '#222222')
@@ -172,12 +172,12 @@ const game = {
 	currentSquare: '',
 	pathTimer: '',
 	timeOut: '',
-	fadeTime: 5000,
+	fadeTime: 3000,
 	generateBoard(){
 		$('#form-container').remove()
-		$('#game-board').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+		$('#game-board').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
-		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 		$('#game-board').hide()
 		$('#game-board').fadeIn(this.fadeTime, () => {
 			
@@ -192,9 +192,10 @@ const game = {
 
 		if (this.numberPlayers === 2) {
 			console.log('cloning');
-			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 			$('#main-grid').clone().appendTo($('#game-board2')).attr('id', 'main-grid2')
-			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
+			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
+			$('#game-board2').css('margin-left', '100px')
 			$('#game-board2').hide()
 			$('#game-board2').fadeIn(this.fadeTime, () => {
 
@@ -232,8 +233,9 @@ const game = {
 
 		
 	},
-	countdownTimer(){
-
+	setMarginForPlatform(){
+		const margin = (Math.floor((this.boardSize / 2)) * (this.divSize + 2)) + 'px'
+		return margin
 	},
 	setStartSquare(){
 		const row = 1

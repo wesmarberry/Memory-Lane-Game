@@ -46,6 +46,7 @@ ol {
 }
 
 
+
 #main-grid,  #main-grid2{
 	text-align: center;
 	display: flex;
@@ -61,13 +62,11 @@ ol {
 
 #game-board #game-board2{
 	display: flex;
-	flex-direction: column;
+	align-content: center;
 	justify-content: center;
 }
 
-#game-board2 {
-	margin-left: 100px;
-}
+
 
 .active {
 	background-color: red;
