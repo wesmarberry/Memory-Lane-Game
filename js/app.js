@@ -68,7 +68,11 @@ class Player {
 				}
 			}
 			if (this.squareOn === game.endSquare) {
-				this.winner()
+				$(this.board + ' .' + game.endSquare).css('background-color', 'blue')
+				setTimeout(() => {
+					this.winner()
+				}, 500)
+				
 			}
 		}	
 	}	
