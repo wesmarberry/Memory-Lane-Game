@@ -7,18 +7,49 @@
 </head>
 <body>
 	
+
 	<div id='form-container'>
+
+
 		<form id='number-players'>
-			<input type="radio" id='one-player' name='players' value='onePlayer'>One Player</input>
-			<input type='radio' id="two-players" name='players' value='twoPlayers'>Two Players</input>
+
+			<ul>
+				<li>
+					<input type="radio" id='one-player' name='players' value='onePlayer'>
+					<label for="one-player">One Player</label>
+					<div class="check"><div class="inside"></div></div>
+				</li>
+
+				<li>
+					<input type='radio' id="two-players" name='players' value='twoPlayers'>
+					<label for="two-players">Two Players</label>
+					<div class="check"><div class="inside"></div></div>
+				</li>
+			</ul>
 			<button type='submit'>Start Game</button>
 		</form>
 
 		<form id='grid-size'>
-			<input type="radio" id='5' name='gridsize' value='5'>5</input>
-			<input type='radio' id="7" name='gridsize' value='7'>7</input>
-			<input type='radio' id="9" name='gridsize' value='9'>9</input>
-			<input type='radio' id="11" name='gridsize' value='11'>11</input>
+
+			<ul>
+				<li>
+					<input type="radio" id='5' name='gridsize' value='5'>
+					<label for='5'>5</label>
+				</li>
+				<li>
+					<input type='radio' id="7" name='gridsize' value='7'>
+					<label for='7'>7</label>
+				</li>
+				<li>
+					<input type='radio' id="9" name='gridsize' value='9'>
+					<label for='9'>9</label>
+				</li>
+				<li>
+					<input type='radio' id="11" name='gridsize' value='11'>
+					<label for='11'>11</label>
+				</li>
+			</ul>
+
 			<button type='submit'>Start Game</button>
 		</form>		
 
