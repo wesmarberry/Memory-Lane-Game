@@ -88,7 +88,7 @@ class Player {
 		} else {
 			this.win = true
 			console.log('Player ' + this.playerNum + ' wins!');
-			$('<h3/>').text('Player ' + this.playerNum + ' wins!').css('color', 'green').appendTo($('#message-board'))
+			$('h4').text('Player ' + this.playerNum + ' wins!').appendTo($('#timer'))
 		}
 	}
 }
@@ -181,7 +181,8 @@ const game = {
 		$('#form-container').remove()
 		$('#game-board').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
-		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
+		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()).css('background-color', 'blue'))
+		$('<p/>').text('&uarr; : w').appendTo($('#game-board'))
 		$('#game-board').hide()
 		$('#game-board').fadeIn(this.fadeTime, () => {
 			
