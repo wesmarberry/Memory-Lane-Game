@@ -75,6 +75,7 @@ class Player {
 			$('#game-board').children().remove()
 			game.activeSquares = []
 			game.availableSquareArr = []
+			$('#countdown').remove()
 			game.generateBoard()
 		} else {
 			this.win = true
@@ -148,7 +149,6 @@ $('#grid-size').on('submit', (e) => {
 	$('#grid-size').hide()
 	game.generateBoard()
 	game.divSize = 40
-
 	
 })
 
@@ -169,6 +169,7 @@ const game = {
 	pathTimer: '',
 	timeOut: '',
 	generateBoard(){
+		$('#form-container').remove()
 		$('#game-board').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
 		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid black'))
@@ -180,25 +181,28 @@ const game = {
 			}
 		}
 		this.randomPath()
-
+		$('<h4/>').attr('id', 'countdown').text('10').appendTo($('#timer'))
 		let a = 0;
-		let i = 10
+		let i = 10;
+		let z = 0;
 		this.pathTimer = setInterval(() => {
 			this.showPath(a)
 			if (a < this.activeSquares.length) {
 				a++
-			} else if (i > 0) {
+			} else if (i > 0 && (z % 2 === 0)) {
 				i--
 				console.log(i);
-			} else {
+				$('#countdown').text(i)
+				// setTimeout(() => {
+				// 	this.startGame()
+				// }, 10000)
+			} else if (i===0) {
+				this.startGame()
+				$('#countdown').text('Start!')
 				clearInterval(this.pathTimer)
-				setTimeout(() => {
-					this.startGame()
-				}, 10000)
 			}
-		
 			console.log('interval is going');
-			
+			z++
 		}, 500)
 		if (this.numberPlayers === 2) {
 			console.log('cloning');

@@ -4,12 +4,19 @@ h1 {
 	text-align: center;
 }
 
-#timer-span {
+#timer {
+	display: flex;
+	justify-content: center;
+}
+
+#coutndown {
 	color: #0DFF92;
 }
 
 h4 {
 	color: #0DFF92;
+	font-size: 40px;
+	margin: 0px 0px 0px 0px;
 }
 
 h3 {
@@ -56,6 +63,7 @@ ol {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	margin-left: 30px;
 }
 
 .active {
@@ -64,8 +72,9 @@ ol {
 
 #game-container {
 	display: flex;
-	justify-content: space-around;
-	align-content: flex-end;
+	justify-content: center;
+	align-content: center;
+	height: 100%;
 }
 
 
