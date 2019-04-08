@@ -6,7 +6,9 @@ h1 {
 
 #timer {
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
+	align-items: baseline;
+	margin-bottom: 20px;
 }
 
 #coutndown {
@@ -16,7 +18,7 @@ h1 {
 h4 {
 	color: #0DFF92;
 	font-size: 40px;
-	margin: 0px 0px 0px 0px;
+	/*margin: 0px 0px 0px 0px;*/
 }
 
 h3 {

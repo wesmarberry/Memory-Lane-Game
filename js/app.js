@@ -1,21 +1,22 @@
-
+//inially hides the form for the 2 player game that selects the grid size
 $('#grid-size').hide()
+//initially hides the game container
+$('#game-container').hide()
+
 
 class Player {
 	constructor(name, squareOn, board, playerNum) {
-		this.name = name
-		this.onPath = true
-		this.squareOn = squareOn
-		this.image = ''
-		this.win = false
-		this.arrowPresses = 0
-		this.board = board
-		this.playerNum = playerNum
+		this.name = name 
+		this.onPath = true // player property that is update if the player is on the active path
+		this.squareOn = squareOn // player property that tracks the class of the square the player is on
+		this.image = '' //player image
+		this.win = false // changees if player reaches the end square
+		this.arrowPresses = 0 //tracks how many squares the player has gotten to that are on the path
+		this.board = board // dirrerentiates the board player 1 is on and the board player 2 is on
+		this.playerNum = playerNum // tracks the player number (1 or 2)
 	}
 	fall() {
-		$(this.board + ' .' + this.squareOn).slideDown(1000, () => {
-			console.log('ran slideDown');
-		})
+		
 
 		$(this.board + ' .active').css('background-color', '#222222')
 		this.squareOn = '0-' + game.startSquare[2]
@@ -79,6 +80,8 @@ class Player {
 	winner(){
 		if (game.numberPlayers === 1) {
 			console.log('You win');
+			game.level += 1
+			$('#timer h3').remove()
 			game.boardSize += 2
 			$('#game-board').children().remove()
 			game.activeSquares = []
@@ -97,7 +100,6 @@ class Player {
 
 $(document).on('keydown', (e) => {
 	console.log(e.key);
-  // you could filterout everything but arrow keys here
   if(['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
     player2.move(e.key)
   }
@@ -167,6 +169,7 @@ const game = {
 	activeSquares: [],
 	offLimitsSquares: [],
 	boardSize: 3,
+	level: 1,
 	divSize: 50,
 	boardContainerSize: (this.boardSize * this.divSize),
 	availableSquareArr: [],
@@ -179,10 +182,12 @@ const game = {
 	fadeTime: 3000,
 	generateBoard(){
 		$('#form-container').remove()
+		$('#game-container').show()
+		$('<h3/>').text('Level: ' + this.level).appendTo($('#timer'))
 		$('#game-board').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
 		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()).css('background-color', 'blue'))
-		$('<p/>').text('&uarr; : w').appendTo($('#game-board'))
+		$('<p/>').html('Up : w<br>Left : a<br>Right : d').css('color', 'white').appendTo($('#game-board'))
 		$('#game-board').hide()
 		$('#game-board').fadeIn(this.fadeTime, () => {
 			
@@ -199,8 +204,9 @@ const game = {
 			console.log('cloning');
 			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 			$('#main-grid').clone().appendTo($('#game-board2')).attr('id', 'main-grid2')
-			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
+			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()).css('background-color', 'blue'))
 			$('#game-board2').css('margin-left', '100px')
+			$('<p/>').html('Up : Up Arrow<br>Left : Left Arrow<br>Right : Right Arrow').css('color', 'white').appendTo($('#game-board2'))
 			$('#game-board2').hide()
 			$('#game-board2').fadeIn(this.fadeTime, () => {
 
