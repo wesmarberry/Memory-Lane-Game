@@ -15,7 +15,6 @@ class Player {
 		this.gameBoard = gameBoard
 		this.board = board // dirrerentiates the board player 1 is on and the board player 2 is on
 		this.playerNum = playerNum // tracks the player number (1 or 2)
-		this.lives = 10
 	}
 	fall() {
 		if (game.mode === 'standard') {
@@ -98,6 +97,7 @@ class Player {
 		if (game.numberPlayers === 1) {
 			console.log('You win');
 			game.level += 1
+			game.peeks += 1
 			$('#timer h3').remove()
 			game.boardSize += 2
 			$('#game-board').children().remove()
@@ -196,18 +196,22 @@ $('#one-player-modes').on('submit', (e) => {
 	}
 })
 
+
+
 const game = {
 	numberPlayers: 0,
 	squares: [],
 	activeSquares: [],
 	offLimitsSquares: [],
 	mode: '',
+	peekActive: false,
 	lives: 10,
 	boardSize: 3,
 	level: 1,
 	divSize: 50,
 	boardContainerSize: (this.boardSize * this.divSize),
 	availableSquareArr: [],
+	peeks: 0,
 	startSquare: '',
 	endSquare: '',
 	prevSquare: '',
@@ -218,7 +222,7 @@ const game = {
 	generateBoard(){
 		player1 = null
 		player2 = null
-		
+		this.peekActive = false
 
 
 		if (this.level > 3) {
@@ -243,7 +247,11 @@ const game = {
 		$('#game-board').append($('<div/>').attr('id', 'main-grid').css('height', this.boardSize * this.divSize + (this.boardSize * 2) + 'px').css('width', this.boardSize * this.divSize + (this.boardSize *2) + 'px'))
 		$('#game-board').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()).css('background-color', 'blue'))
 		$('<img/>').attr('src', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12111689-e376-408b-9063-547f262f3eac/d8bhjyj-cb4e50bf-9128-4d70-ad02-7e08e4b70d7f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzEyMTExNjg5LWUzNzYtNDA4Yi05MDYzLTU0N2YyNjJmM2VhY1wvZDhiaGp5ai1jYjRlNTBiZi05MTI4LTRkNzAtYWQwMi03ZTA4ZTRiNzBkN2YucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fniOFIOeZsBIYZfe3mXRMsTJE1HZLQjCzzVDq2TDwAY').appendTo($('.start-platform'))
-		$('<p/>').html('Up : w<br>Left : a<br>Right : d').css('color', 'white').appendTo($('#game-board'))
+		$('<div/>').attr('id', 'bottom-container').appendTo($('#game-board'))
+		$('<p/>').html('Up : w<br>Left : a<br>Right : d').css('color', 'white').appendTo($('#bottom-container'))
+		if (this.numberPlayers === 1) {
+			$('<button/>').attr('id', 'peek-button').text('Peek ' + this.peeks).appendTo($('#bottom-container'))
+		}
 		$('#game-board').hide()
 		$('#game-board').fadeIn(this.fadeTime, () => {
 			
@@ -255,7 +263,12 @@ const game = {
 				$('#main-grid').prepend($('<div/>').attr('class', row + '-' + column).css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white'))
 			}
 		}
-
+		$('#peek-button').on('click', () => {
+			console.log('peek button working');
+			if (game.peeks > 0) {
+				game.peek()
+			}
+		})
 		if (this.numberPlayers === 2) {
 			console.log('cloning');
 			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
@@ -292,6 +305,7 @@ const game = {
 					this.startGame()
 					$('#countdown').text('Start!')
 					clearInterval(this.pathTimer)
+					this.peekActive = true
 				}
 				console.log('interval is going');
 				z++
@@ -402,6 +416,19 @@ const game = {
 		arr = str.split('-')
 		return arr
 	},
+	peek(){
+		console.log('running peek');
+		if (this.peekActive === true) {
+
+			$('.active').css('background-color', 'red')
+			setTimeout(() => {
+				$('.active').css('background-color', '#222222')
+			}, 2000)
+			this.peeks--
+			$('#peek-button').text('Peek ' + this.peeks)
+
+		}
+	}
 }
 
 

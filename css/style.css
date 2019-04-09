@@ -25,6 +25,11 @@ img {
 	margin-left: 100px;
 }
 
+#bottom-container {
+	display: flex;
+	justify-content: space-between;
+}
+
 #timer {
 	display: flex;
 	justify-content: space-around;
