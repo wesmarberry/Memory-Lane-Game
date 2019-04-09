@@ -15,7 +15,7 @@ class Player {
 		this.gameBoard = gameBoard
 		this.board = board // dirrerentiates the board player 1 is on and the board player 2 is on
 		this.playerNum = playerNum // tracks the player number (1 or 2)
-		this.lives = 5
+		this.lives = 10
 	}
 	fall() {
 		
@@ -177,11 +177,13 @@ $('#grid-size').on('submit', (e) => {
 $('#one-player-modes').on('submit', (e) => {
 	e.preventDefault()
 	let radioValue = $("input[name='modes']:checked").val();
-
+	console.log(radioValue);
 	if (radioValue === 'standard') {
+		game.mode = 'standard'
+		console.log('Standard mode');
 		game.generateBoard()
-		game.gameMode = standard
 	} else if (radioValue === 'freestyle') {
+		game.mode = 'freestyle'
 		game.generateBoard()
 
 	}
@@ -192,7 +194,7 @@ const game = {
 	squares: [],
 	activeSquares: [],
 	offLimitsSquares: [],
-	gameMode: '',
+	mode: '',
 	boardSize: 3,
 	level: 1,
 	divSize: 50,
@@ -208,11 +210,24 @@ const game = {
 	generateBoard(){
 		player1 = null
 		player2 = null
+		
+
+
 		if (this.level > 3) {
 			this.divSize = 40
 		} else if (this.level > 5) {
 			this.divSize = 30
 		}
+
+		if (this.mode === 'standard' && this.level === 1) {
+			console.log('running game mode');
+			$('<div/>').attr('id', 'lives').prependTo($('body'))
+			$('<h3/>').text('Lives: ').css('margin-right', '30px').appendTo($('#lives'))
+			for (let i = 0; i < 10; i++) {
+				$('<img/>').attr('src', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12111689-e376-408b-9063-547f262f3eac/d8bhjyj-cb4e50bf-9128-4d70-ad02-7e08e4b70d7f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzEyMTExNjg5LWUzNzYtNDA4Yi05MDYzLTU0N2YyNjJmM2VhY1wvZDhiaGp5ai1jYjRlNTBiZi05MTI4LTRkNzAtYWQwMi03ZTA4ZTRiNzBkN2YucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fniOFIOeZsBIYZfe3mXRMsTJE1HZLQjCzzVDq2TDwAY').css('height', '30px').appendTo($('#lives'))
+			}
+		}
+
 		$('#form-container').remove()
 		$('#game-container').show()
 		$('<h3/>').text('Level: ' + this.level).appendTo($('#timer'))

@@ -4,6 +4,12 @@ h1 {
 	text-align: center;
 }
 
+#lives {
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+}
+
 img {
 	height: 40px;
 }
@@ -23,7 +29,8 @@ img {
 	display: flex;
 	justify-content: space-around;
 	align-items: baseline;
-	margin-bottom: 20px;
+	height: 80px;
+	/*margin-bottom: 20px;*/
 }
 
 #coutndown {
