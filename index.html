@@ -57,8 +57,24 @@
 				</li>
 			</ul>
 
-			<button type='submit'>Start Game</button>
+			<button type='submit' class='start'>Start Game</button>
 		</form>		
+
+		<form id='one-player-modes'>
+			<h3>Select One Player Games</h3>
+			<ul>
+				<li>
+					<input type="radio" id='standard' name='modes' value='standard'>
+					<label for='standard'>Standard Game</label>
+				</li>
+				<li>
+					<input type='radio' id="freestlye" name='modes' value='freestyle'>
+					<label for='7'>Freestyle Mode</label>
+				</li>
+			</ul>
+			<button type='submit' class='start'>Start Game</button>
+			<p id='one-player-info'>*Standard mode gives the user 10 lives until Game Over<br> <br>*Freestyle mode gives the user unlimited lives to get to as high a level as possible</p>
+		</form>	
 
 	</div>
 

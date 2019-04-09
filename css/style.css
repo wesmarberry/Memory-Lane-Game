@@ -8,6 +8,17 @@ img {
 	height: 40px;
 }
 
+.start {
+	margin-left: 200px;
+}
+
+#one-player-info {
+	color: #0DFF92;
+	margin-top: 20px;
+	width: 300px;
+	margin-left: 100px;
+}
+
 #timer {
 	display: flex;
 	justify-content: space-around;

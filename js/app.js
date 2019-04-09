@@ -2,7 +2,7 @@
 $('#grid-size').hide()
 //initially hides the game container
 $('#game-container').hide()
-
+$('#one-player-modes').hide()
 
 class Player {
 	constructor(name, squareOn, board, playerNum, gameBoard) {
@@ -15,6 +15,7 @@ class Player {
 		this.gameBoard = gameBoard
 		this.board = board // dirrerentiates the board player 1 is on and the board player 2 is on
 		this.playerNum = playerNum // tracks the player number (1 or 2)
+		this.lives = 5
 	}
 	fall() {
 		
@@ -135,8 +136,9 @@ $('#number-players').on('submit', (e) => {
 
 	if (radioValue === 'onePlayer') {
 		game.numberPlayers = 1
-		game.generateBoard()
-		$('form').remove()
+		$('#one-player-modes').show()
+		$('#number-players').remove()
+		$('#grid-size').remove()
 		$('h1').remove()
 		$('#instructions').remove()
 
@@ -172,12 +174,25 @@ $('#grid-size').on('submit', (e) => {
 	
 })
 
+$('#one-player-modes').on('submit', (e) => {
+	e.preventDefault()
+	let radioValue = $("input[name='modes']:checked").val();
+
+	if (radioValue === 'standard') {
+		game.generateBoard()
+		game.gameMode = standard
+	} else if (radioValue === 'freestyle') {
+		game.generateBoard()
+
+	}
+})
 
 const game = {
 	numberPlayers: 0,
 	squares: [],
 	activeSquares: [],
 	offLimitsSquares: [],
+	gameMode: '',
 	boardSize: 3,
 	level: 1,
 	divSize: 50,
