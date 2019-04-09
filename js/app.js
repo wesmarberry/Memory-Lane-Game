@@ -18,6 +18,7 @@ class Player {
 	}
 	fall() {
 
+
 		//if a player is in standard mode and falls one of the lives will be removed
 		if (game.mode === 'standard') {
 			// removes image from the dom representing a life
