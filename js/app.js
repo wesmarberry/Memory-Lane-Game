@@ -23,9 +23,6 @@ class Player {
 		this.squareOn = '0-' + game.startSquare[2]
 		this.arrowPresses = 0
 	}
-	start(){
-
-	}
 	move(key) {
 		if (this.win === false) {
 			let row = Number(game.getRowCol(this.squareOn)[0])
@@ -337,11 +334,6 @@ const game = {
 		 			this.activeSquares.push(this.availableSquareArr[rand])
 		 			this.currentSquare = this.availableSquareArr[rand]
 		 			this.availableSquareArr = []
-		 			// for (let i = 0; i < this.availableSquareArr.length; i++) {
-	 				// 	this.offLimitsSquares.push(this.availableSquareArr[i])
-		 			// }
-		 			// console.log(this.currentSquare);
-		 			// console.log(this.activeSquares);
 		 			console.log('looping');
 	 			} else {
 	 				this.currentSquare = this.currentSquare
