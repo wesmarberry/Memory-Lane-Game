@@ -21,7 +21,7 @@ class Player {
 			$('#img' + game.lives).remove()
 			game.lives--
 			if (game.lives === 0) {
-				this.win=true
+				this.win = true
 				$('#countdown').text('GAME OVER').css('color', 'red')
 			}
 		}
@@ -118,7 +118,7 @@ class Player {
 
 $(document).on('keydown', (e) => {
 	console.log(e.key);
-  if(['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
+  if(['ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
     player2.move(e.key)
   }
   if(['a', 'w', 'd'].includes(e.key)) {
@@ -271,6 +271,7 @@ const game = {
 		})
 		if (this.numberPlayers === 2) {
 			console.log('cloning');
+			$('#timer h3').remove()
 			$('#game-board2').append($('<div/>').attr('class', 'end-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()))
 			$('#main-grid').clone().appendTo($('#game-board2')).attr('id', 'main-grid2')
 			$('#game-board2').append($('<div/>').attr('class', 'start-platform').css('height', this.divSize + 'px').css('width', this.divSize + 'px').css('border', '1px solid white').css('margin-left', this.setMarginForPlatform()).css('background-color', 'blue'))
@@ -418,12 +419,25 @@ const game = {
 	},
 	peek(){
 		console.log('running peek');
-		if (this.peekActive === true) {
 
-			$('.active').css('background-color', 'red')
+
+
+
+
+		if (this.peekActive === true) {
+			for (let i = 0; i < this.activeSquares.length; i++) {
+				if ($('.' + this.activeSquares[i]).css('background-color') === 'rgb(34, 34, 34)') {
+					$('.' + this.activeSquares[i]).css('background-color', 'red')
+				}
+			}
 			setTimeout(() => {
-				$('.active').css('background-color', '#222222')
-			}, 2000)
+				for (let i = 0; i < this.activeSquares.length; i++) {
+					console.log($('.' + this.activeSquares[i]).css('background-color'));
+					if ($('.' + this.activeSquares[i]).css('background-color') === 'rgb(255, 0, 0)') {
+						$('.' + this.activeSquares[i]).css('background-color', '#222222')
+					}
+				}
+			}, 1500)
 			this.peeks--
 			$('#peek-button').text('Peek ' + this.peeks)
 
