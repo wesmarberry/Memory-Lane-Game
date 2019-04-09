@@ -18,7 +18,14 @@ class Player {
 		this.lives = 10
 	}
 	fall() {
-		
+		if (game.mode === 'standard') {
+			$('#img' + game.lives).remove()
+			game.lives--
+			if (game.lives === 0) {
+				this.win=true
+				$('#countdown').text('GAME OVER').css('color', 'red')
+			}
+		}
 		$(this.gameBoard + ' .start-platform').append($('<img/>').attr('src', this.image).css('height', '40px'))
 		$(this.board + ' .active').css('background-color', '#222222')
 		this.squareOn = '0-' + game.startSquare[2]
@@ -195,6 +202,7 @@ const game = {
 	activeSquares: [],
 	offLimitsSquares: [],
 	mode: '',
+	lives: 10,
 	boardSize: 3,
 	level: 1,
 	divSize: 50,
@@ -223,8 +231,8 @@ const game = {
 			console.log('running game mode');
 			$('<div/>').attr('id', 'lives').prependTo($('body'))
 			$('<h3/>').text('Lives: ').css('margin-right', '30px').appendTo($('#lives'))
-			for (let i = 0; i < 10; i++) {
-				$('<img/>').attr('src', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12111689-e376-408b-9063-547f262f3eac/d8bhjyj-cb4e50bf-9128-4d70-ad02-7e08e4b70d7f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzEyMTExNjg5LWUzNzYtNDA4Yi05MDYzLTU0N2YyNjJmM2VhY1wvZDhiaGp5ai1jYjRlNTBiZi05MTI4LTRkNzAtYWQwMi03ZTA4ZTRiNzBkN2YucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fniOFIOeZsBIYZfe3mXRMsTJE1HZLQjCzzVDq2TDwAY').css('height', '30px').appendTo($('#lives'))
+			for (let i = 1; i <= 10; i++) {
+				$('<img/>').attr('src', 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12111689-e376-408b-9063-547f262f3eac/d8bhjyj-cb4e50bf-9128-4d70-ad02-7e08e4b70d7f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzEyMTExNjg5LWUzNzYtNDA4Yi05MDYzLTU0N2YyNjJmM2VhY1wvZDhiaGp5ai1jYjRlNTBiZi05MTI4LTRkNzAtYWQwMi03ZTA4ZTRiNzBkN2YucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fniOFIOeZsBIYZfe3mXRMsTJE1HZLQjCzzVDq2TDwAY').attr('id', 'img' + i).css('height', '30px').appendTo($('#lives'))
 			}
 		}
 
