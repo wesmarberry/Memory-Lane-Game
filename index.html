@@ -6,19 +6,79 @@
 	<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
 </head>
 <body>
-	
-	<form id='number-players'>
-		<input type="radio" id='one-player' name='players' value='onePlayer'>One Player</input>
-		<input type='radio' id="two-players" name='players' value='twoPlayers'>Two Players</input>
-		<button type='submit'>Start Game</button>
-	</form>
+	<h1>Memory-Lane</h1>
+	<div id="instructions">
+		<h3>Instructions</h3>
+		<ol>
+			<li>The path to safety will be shown on the platform.</li>
+			<li>The user will have 10 seconds after the complete path is shown to memorize the path exactly.</li> 
+			<li>If the user steps on an area that is not on the path or out of sequence the user will fall and have to start over at the start platform.</li>
+		</ol>
+	</div>
+	<div id='form-container'>
 
 
+		<form id='number-players'>
 
-	<div id="game-board">
-	
+			<ul>
+				<li>
+					<input type="radio" id='one-player' name='players' value='onePlayer'>
+					<label for="one-player">One Player</label>
+					<div class="check"><div class="inside"></div></div>
+				</li>
+
+				<li>
+					<input type='radio' id="two-players" name='players' value='twoPlayers'>
+					<label for="two-players">Two Players</label>
+					<div class="check"><div class="inside"></div></div>
+				</li>
+			</ul>
+			<button type='submit'>Start Game</button>
+		</form>
+
+		<form id='grid-size'>
+			<h3>Select Platform Size</h3>
+			<ul>
+				<li>
+					<input type="radio" id='5' name='gridsize' value='5'>
+					<label for='5'>5X5</label>
+				</li>
+				<li>
+					<input type='radio' id="7" name='gridsize' value='7'>
+					<label for='7'>7X7</label>
+				</li>
+				<li>
+					<input type='radio' id="9" name='gridsize' value='9'>
+					<label for='9'>9X9</label>
+				</li>
+				<li>
+					<input type='radio' id="11" name='gridsize' value='11'>
+					<label for='11'>11X11</label>
+				</li>
+			</ul>
+
+			<button type='submit'>Start Game</button>
+		</form>		
+
 	</div>
 
+	<div id="timer">
+
+	</div>
+
+	<div id="message-board">
+
+	</div>
+
+	<div id="game-container">
+		<div id="game-board">
+		
+		</div>
+
+		<div id="game-board2">
+		
+		</div>
+	</div>
 
 
 
