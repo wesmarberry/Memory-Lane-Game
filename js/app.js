@@ -293,8 +293,10 @@ const game = {
 		// makes the board a manageable size by altering the size of each square
 		if (this.level > 3) {
 			this.divSize = 40
-		} else if (this.level > 5) {
+		} else if (this.level >= 5) {
 			this.divSize = 30
+		} else if (this.level >= 7) {
+			this.divSize = 20
 		}
 
 		// if the user is in 1 player standard mode the lives are displayed
