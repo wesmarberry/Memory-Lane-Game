@@ -167,9 +167,13 @@ class Player {
 
 $(document).on('keydown', (e) => {
 	console.log(e.key);
-  if(['ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
-    player2.move(e.key)
-  }
+	if (game.numberPlayers = 2) {
+	  if(['ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
+	    player2.move(e.key)
+	  }
+	}
+
+
   if(['a', 'w', 'd'].includes(e.key)) {
   	if (e.key === 'a') {
   		e.key = 'ArrowLeft'
