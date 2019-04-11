@@ -1,33 +1,42 @@
 
+The home screen comes up with the instructions
+
 User selects the number of players 1 or 2
 
-an inital screen comes up with a grid that is 7X7
+1 player mode:
+user selects either standard mode or freestyle mode
 
-a sample path is either lit up or walked by a sample player
+standard mode:
+the user starts at level 1 which is a 3X3 grid
 
-the player(s) must remember the path that was walked and replicate it on the next screen
+the random path to the end square is shown once the path is complete the countdown begins
 
-a split screen comes up each side with a blank 7X7 grid
+the user will have 10 seconds to memorize the path
 
-if a player steps on the correct square the square is lit up and the user remains on the square
-	the player moves by pushing the directional keys
+once the countdown hits 0 the game will start and the user must navigate to the end square
 
-if the square is not on the specified path then the user "Falls" or fails and must restart
+if the user strays from the path or steps on a square out of sequence the user "falls" and goes back to the start square and loses a life
 
-the game ends when one player reaches the end platform successfully and the score is stored
+the user can click the peek button to reveal the path for 1/2 a second.
 
+if the user get to the end square the user moves on to the next level and the board size is increased by 2 and the user gets an extra peek
 
-MVP qualities:
+if the user loses all of the lives then the game is over
 
-grid where an itial path is displayed
-a player can navigate the path either failing and having to restart or reaching the end platform
+Freestyle mode:
+the rules are the same as 1 player mode except the user does not have limit on lives
 
-Should have/reach qualities:
+the goal is to get to as high a level as possible
 
-grid size selections
-2 player option
-animate characters walking across the board
-record book for fastest wins
+2 player mode:
+the users select the board size from the list
+
+two boards will appear and the path is shown
+
+once the countdown gets to 0 the game starts 
+
+whichever player correctly replicates the path to the end square first wins
+
 
 
 
