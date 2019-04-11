@@ -167,8 +167,9 @@ class Player {
 
 $(document).on('keydown', (e) => {
 	console.log(e.key);
-	if (game.numberPlayers = 2) {
+	if (game.numberPlayers === 2) {
 	  if(['ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
+	  	console.log('running player2 move');
 	    player2.move(e.key)
 	  }
 	}
@@ -177,12 +178,14 @@ $(document).on('keydown', (e) => {
   if(['a', 'w', 'd'].includes(e.key)) {
   	if (e.key === 'a') {
   		e.key = 'ArrowLeft'
+  		player1.move(e.key)
   	} else if (e.key === 'w') {
   		e.key = 'ArrowUp'
+  		player1.move(e.key)
   	} else if (e.key === 'd') {
   		e.key = 'ArrowRight'
+  		player1.move(e.key)
   	}
-    player1.move(e.key)
   }
 
 
@@ -207,7 +210,7 @@ $('#number-players').on('submit', (e) => {
 		$('h1').remove()
 		$('#instructions').remove()
 
-	} else {
+	} else if (radioValue === 'twoPlayers') {
 		game.numberPlayers = 2
 		// removes previous form
 		$('#number-players').remove()
@@ -376,6 +379,7 @@ const game = {
 
 		// displays the timer on the page
 		$('<h4/>').attr('id', 'countdown').text('10').appendTo($('#timer'))
+		console.log('this is the number of players' + this.numberPlayers);
 
 		// the timer function starting when the board fades in 
 		setTimeout(() => {
@@ -411,7 +415,7 @@ const game = {
 		}, 500)
 		}, this.fadeTime)
 
-
+		console.log(this.numberPlayers);
 		
 	},
 	setMarginForPlatform(){
@@ -527,9 +531,14 @@ const game = {
 		// give the row and column to start on for the players
 		let row = this.getRowCol(this.startSquare)[0]
 		let col = this.getRowCol(this.startSquare)[1]
+
+		console.log('this is the number of players at startGame' + game.numberPlayers);
 		// instantiates both players
 		player1 = new Player('Wes', '0-' + col, '#main-grid', 1, '#game-board')
-		player2 = new Player('player2', '0-' + col, '#main-grid2', 2, '#game-board2')
+		console.log('this is the number of players at startGame' + game.numberPlayers);
+		if (game.numberPlayers === 2) {
+			player2 = new Player('player2', '0-' + col, '#main-grid2', 2, '#game-board2')
+		}
 	},
 	getRowCol(str){
 		// method returns an array to access each squares row and column properties
